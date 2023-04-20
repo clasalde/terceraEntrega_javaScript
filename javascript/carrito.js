@@ -44,7 +44,7 @@ class ControladorDeProductos {
     displayProductosDOM() {
         this.listaDeProductos.forEach(producto => {
             this.contenedorProductos.innerHTML +=
-            `<div class="d-flex card cardCustom mb-3">
+                `<div class="d-flex card cardCustom mb-3">
                 <h3 class="card-header text-center">${producto.modelo}</h3>
                 <div class="d-flex contenerImagen mt-2">
                     <img class="m-auto imagenProducto" src="${producto.img}" alt="${producto.alt}">
@@ -65,45 +65,51 @@ class ControladorDeProductos {
         })
     }
 
-    clickAnadir(controladorCarrito){
+    clickAnadir(controladorCarrito) {
         this.listaDeProductos.forEach(producto => {
             const btnAP = document.getElementById(`${producto.id}`)
             btnAP.addEventListener("click", () => {
-        
-                controladorCarrito.pushear(producto)
+
+                controladorCarrito.pushear(producto) //verificar si existe antes el producto
                 controladorCarrito.setStorage()
                 controladorCarrito.displayCarritoDOM(contenedorCarrito) //solo añadir un producto al DOM
+
+                Toastify({
+                    text: `${producto.modelo} Añadido!`,
+                    duration: 1500
+                }).showToast();
             })
         })
     }
 }
 
 class ControladorDelCarrito {
-    constructor(){
+    constructor() {
         this.listaDelCarrito = []
         this.contenedorCarrito = document.getElementById("contenedorCarrito")
+        this.totalCompra = document.getElementById("totalCompra")
     }
 
-    pushear(producto){
+    pushear(producto) {
         this.listaDelCarrito.push(producto)
     }
 
-    setStorage(){
+    setStorage() {
         let listaDelCarritoJSON = JSON.stringify(this.listaDelCarrito)
         localStorage.setItem("listaDelCarrito", listaDelCarritoJSON)
     }
 
-    checkStorage(){
+    checkStorage() {
         this.listaDelCarrito = JSON.parse(localStorage.getItem("listaDelCarrito")) || []
         this.listaDelCarrito.length > 0 && this.displayCarritoDOM()
     }
 
-    reset(){
-        this.contenedorCarrito.innerHTML = ""
+    resetStorage() {
+        localStorage.removeItem("listaDelCarrito")
     }
 
-    displayCarritoDOM(){
-        this.reset(contenedorCarrito)
+    displayCarritoDOM() {
+        this.resetDOM(contenedorCarrito)
         this.listaDelCarrito.forEach(producto => {
             this.contenedorCarrito.innerHTML +=
                 `<div class="card mb-3" style="max-width: 540px;">
@@ -122,6 +128,48 @@ class ControladorDelCarrito {
                 </div>
             </div>`
         })
+
+        this.displayTotalDOM()
+    }
+
+    resetDOM() {
+        this.contenedorCarrito.innerHTML = ""
+    }
+
+    resetListaDelCarrito() {
+        this.listaDelCarrito = []
+    }
+
+    finalizarCompra() {
+        finalizarCompra.addEventListener("click", () => {
+            if(this.listaDelCarrito.length != 0){
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Compra exitosa!',
+                    showConfirmButton: false,
+                    timer: 1700
+                })
+            
+                controladorCarrito.resetDOM()
+                controladorCarrito.resetStorage()
+                controladorCarrito.resetListaDelCarrito()
+                controladorCarrito.displayTotalDOM()
+            }
+        })
+    }
+
+    calcularTotal() {
+        let totalCompra = 0
+        this.listaDelCarrito.forEach(producto => {
+            totalCompra += producto.precio * producto.cantidad
+        })
+
+        return totalCompra;
+    }
+
+    displayTotalDOM() {
+        this.totalCompra.innerHTML = "$"+this.calcularTotal()
     }
 }
 
@@ -130,6 +178,7 @@ controladorProductos.uploadDeProductos();
 
 const controladorCarrito = new ControladorDelCarrito();
 controladorCarrito.checkStorage();
+controladorCarrito.finalizarCompra();
 
 // DOM
 controladorProductos.displayProductosDOM();
