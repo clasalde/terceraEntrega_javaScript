@@ -76,7 +76,7 @@
     <main>
         <h1 class="text-center my-5 tituloPpal">Innovación en Artículos Gourmet</h1>
 
-        <section class="bg-gray width-90 mx-auto pb-5">
+        <section class="bg-gray width-70 mx-auto pb-5">
             <a href="./index.html"><h2 class="text-center p-5 text-light" id="nosotros">Nosotros</h2></a>
             <h3 class="text-center mb-5 m-auto text-light width-90">INDARG SRL se consolida en el mercado como una solución para insumos grastronómicos de calidad premium</h3>
             <div class="sectionNosotros">
@@ -116,8 +116,8 @@
             <!-- BOOTSTRAP CARD DINAMICA by JS -->
         </section>
 
-        <section class="d-flex flex-column bg-gray width-90 m-auto justify-content-evenly">
-            <form class="d-flex flex-column">
+        <section class="d-flex flex-column bg-gray width-70 m-auto justify-content-evenly">
+            <form id="formularioMaster" class="d-flex flex-column">
                 <a href="./index.html"><h2 id="formularioContacto" class="text-center my-5 text-light">Formulario de Contacto</h2></a>
                 <fieldset class="width-90 m-auto">
                     <legend>Datos Personales</legend>
@@ -144,8 +144,8 @@
                         <textarea class="form-control" id="campoMensaje" rows="8" placeholder="Ingrese su mensaje"></textarea>
                     </div>
                     <div class="d-flex py-5 justify-content-evenly">
-                        <button type="submit" class="btn btn-success width-30">Enviar</button>
-                        <button type="submit" class="btn btn-danger width-30">Limpiar</button>
+                        <button id="btnEnviar" type="submit" class="btn btn-success width-30">Enviar</button>
+                        <button id="btnLimpiar" type="submit" class="btn btn-danger width-30">Limpiar</button>
                     </div>
                 </fieldset>
             </form>

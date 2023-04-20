@@ -62,10 +62,15 @@ a {
     width: 30%;
 }
 
+.width-70 {
+    width: 70%;
+}
+
 .googleMap{
     height: 400px;
 }
 
 .tituloPpal {
     font-size: 3rem;
+    color: blue;
 }
